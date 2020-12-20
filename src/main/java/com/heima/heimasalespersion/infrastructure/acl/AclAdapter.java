@@ -29,5 +29,8 @@ public class AclAdapter {
             setAccount(account);
             setMoney(money);
         }});
+        if (pay.getCode() != 0) {
+            throw new ThirdException("调用微信失败:"+pay.getMessage());
+        }
     }
 }

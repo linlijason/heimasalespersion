@@ -57,5 +57,16 @@ public class AclAdapterTest extends FakeDbTest {
 
         adapter.wxPay("account", BigDecimal.valueOf(10));
     }
+    @Test
+    public void pay_should_exception_when_wx_error() {
+        String response = "{\"message\":\"余额不足\",\"code\":100,\"seqNo\":\"seqNo\"}";
+        stubFor(post(urlEqualTo("/wxpay"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json").withBody(response)));
 
+        assertThrows(ThirdException.class,()->
+                        adapter.wxPay("account", BigDecimal.valueOf(10))
+                ,"调用微信失败:余额不足")
+        ;
+    }
 }
