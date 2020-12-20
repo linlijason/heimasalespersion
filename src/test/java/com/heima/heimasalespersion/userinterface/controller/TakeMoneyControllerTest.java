@@ -74,4 +74,19 @@ public class TakeMoneyControllerTest {
                 .andExpect(content().json("{\"message\":\"提现不存在\"}"));
 
     }
+
+    @Test
+    public void payment_should_400_when_params_error() throws Exception {
+        String requestJson="{\"payType\":\"苹果支付\",\"payAmount\":11.11,\"account\":\"account\"}";
+        MockHttpServletRequestBuilder post = MockMvcRequestBuilders
+                .post("/takemoney/1/payment")
+                .contentType(MediaType.APPLICATION_JSON).content(requestJson);
+
+
+        mockMvc.perform(post)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().is(400))
+                .andExpect(content().json("{\"message\":\"支付方式错误\"}"));
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.heima.heimasalespersion.userinterface;
 
 import com.heima.heimasalespersion.model.exceptions.EntityNotfoundException;
+import com.heima.heimasalespersion.model.exceptions.ParamsErrorException;
 import com.heima.heimasalespersion.model.exceptions.ThirdException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,16 @@ public class GlobalExceptionHandler {
             setMessage(e.getMessage());
         }};
     }
+    @ExceptionHandler(value= ParamsErrorException.class)
+    @ResponseBody
+    public Error exceptionHandler(ParamsErrorException e, HttpServletResponse response) {
+        response.setStatus(400);
+        response.setContentType("application/json;charset=UTF-8");
+        return new Error() {{
+            setMessage(e.getMessage());
+        }};
+    }
+
 
     public static class Error{
         private String message;
