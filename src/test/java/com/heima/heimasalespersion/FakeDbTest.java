@@ -3,6 +3,8 @@ package com.heima.heimasalespersion;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.ext.ScriptUtils;
+import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
@@ -12,6 +14,8 @@ public class FakeDbTest {
     static {
         DATABASE.start();
 
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(DATABASE,""),
+                "ddl.sql");
     }
 
     @DynamicPropertySource
