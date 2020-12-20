@@ -1,5 +1,6 @@
 package com.heima.heimasalespersion.userinterface;
 
+import com.heima.heimasalespersion.model.exceptions.EntityNotfoundException;
 import com.heima.heimasalespersion.model.exceptions.ThirdException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,15 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Error exceptionHandler(ThirdException e, HttpServletResponse response) {
         response.setStatus(500);
+        response.setContentType("application/json;charset=UTF-8");
+        return new Error() {{
+            setMessage(e.getMessage());
+        }};
+    }
+    @ExceptionHandler(value= EntityNotfoundException.class)
+    @ResponseBody
+    public Error exceptionHandler(EntityNotfoundException e, HttpServletResponse response) {
+        response.setStatus(404);
         response.setContentType("application/json;charset=UTF-8");
         return new Error() {{
             setMessage(e.getMessage());

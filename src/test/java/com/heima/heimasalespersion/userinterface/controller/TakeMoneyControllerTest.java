@@ -1,5 +1,6 @@
 package com.heima.heimasalespersion.userinterface.controller;
 
+import com.heima.heimasalespersion.model.exceptions.EntityNotfoundException;
 import com.heima.heimasalespersion.model.exceptions.ThirdException;
 import com.heima.heimasalespersion.service.takemoney.TakeMoneyService;
 import org.junit.jupiter.api.Test;
@@ -58,4 +59,19 @@ public class TakeMoneyControllerTest {
 
     }
 
+    @Test
+    public void payment_should_404_given_happend_notfoundException() throws Exception {
+        String requestJson="{\"payType\":\"支付宝\",\"payAmount\":11.11,\"account\":\"account\"}";
+        MockHttpServletRequestBuilder post = MockMvcRequestBuilders
+                .post("/takemoney/1/payment")
+                .contentType(MediaType.APPLICATION_JSON).content(requestJson);
+        doThrow(new EntityNotfoundException("提现不存在")).when(takeMoneyService).payment(1,
+                "支付宝",BigDecimal.valueOf(11.11),"account");
+
+        mockMvc.perform(post)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().is(404))
+                .andExpect(content().json("{\"message\":\"提现不存在\"}"));
+
+    }
 }

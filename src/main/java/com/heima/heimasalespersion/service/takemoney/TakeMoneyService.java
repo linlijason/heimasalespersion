@@ -3,6 +3,7 @@ package com.heima.heimasalespersion.service.takemoney;
 import com.heima.heimasalespersion.infrastructure.acl.AclAdapter;
 import com.heima.heimasalespersion.infrastructure.dao.TakeMoneyPaymentRepository;
 import com.heima.heimasalespersion.infrastructure.dao.TakeMoneyRepository;
+import com.heima.heimasalespersion.model.exceptions.EntityNotfoundException;
 import com.heima.heimasalespersion.model.takemoney.TakeMoney;
 import com.heima.heimasalespersion.model.takemoney.TakeMoneyPayment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class TakeMoneyService {
 
     public void payment(int id, String payType, BigDecimal amount,String account) {
         TakeMoney tokeMoney = takeMoneyRepository.getOne(id);
+        if(tokeMoney==null){
+            throw new EntityNotfoundException("提现不存在");
+        }
         if(payType.equals("支付宝"))
              aclAdapter.aliPay(account, amount);
         if(payType.equals("微信")){

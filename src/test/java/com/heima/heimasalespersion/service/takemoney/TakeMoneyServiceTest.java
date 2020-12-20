@@ -3,8 +3,8 @@ package com.heima.heimasalespersion.service.takemoney;
 import com.heima.heimasalespersion.infrastructure.acl.AclAdapter;
 import com.heima.heimasalespersion.infrastructure.dao.TakeMoneyPaymentRepository;
 import com.heima.heimasalespersion.infrastructure.dao.TakeMoneyRepository;
+import com.heima.heimasalespersion.model.exceptions.EntityNotfoundException;
 import com.heima.heimasalespersion.model.takemoney.TakeMoney;
-import com.heima.heimasalespersion.model.takemoney.TakeMoneyPayment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,8 @@ import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,6 +65,18 @@ public class TakeMoneyServiceTest {
                 && a.getAccount().equals("account") && a.getStatus().equals("支付中")));
         Mockito.verify(aclAdapter).wxPay("account", money);
 
+    }
+
+    @Test
+    public void payment_should_exception_when_dao_return_null() {
+        int id = 1;
+        BigDecimal money = BigDecimal.valueOf(10.1);
+        Mockito.when(takeMoneyRepository.getOne(id)).thenReturn(null);
+
+
+        assertThrows(EntityNotfoundException.class,()->
+                service.payment(id, "微信", money, "account")
+                ,"提现不存在");
     }
 
 }
