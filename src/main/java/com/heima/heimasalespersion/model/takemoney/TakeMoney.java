@@ -1,4 +1,4 @@
-package com.heima.heimasalespersion.service.takemoney;
+package com.heima.heimasalespersion.model.takemoney;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

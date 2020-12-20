@@ -2,7 +2,7 @@ package com.heima.heimasalespersion.userinterface.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heima.heimasalespersion.service.takemoney.TokenMoneyService;
-import com.heima.heimasalespersion.userinterface.dto.TakeMoneyPaymentRequest;
+import com.heima.heimasalespersion.model.takemoney.TakeMoneyPaymentRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.math.BigDecimal;
 

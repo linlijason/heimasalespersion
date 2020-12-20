@@ -1,4 +1,4 @@
-package com.heima.heimasalespersion.userinterface.dto;
+package com.heima.heimasalespersion.model.takemoney;
 
 import java.math.BigDecimal;
 

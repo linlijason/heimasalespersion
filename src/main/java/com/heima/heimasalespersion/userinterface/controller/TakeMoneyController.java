@@ -2,7 +2,7 @@ package com.heima.heimasalespersion.userinterface.controller;
 
 import com.heima.heimasalespersion.service.takemoney.TokenMoneyService;
 import com.heima.heimasalespersion.userinterface.Result;
-import com.heima.heimasalespersion.userinterface.dto.TakeMoneyPaymentRequest;
+import com.heima.heimasalespersion.model.takemoney.TakeMoneyPaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
