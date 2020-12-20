@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "take_money_payment")
-public class TokenMoneyPayment {
+public class TakeMoneyPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,18 +14,32 @@ public class TokenMoneyPayment {
     private LocalDateTime createAt;
     @Column(name="pay_type")
     private String payType;
+    @Column(name="account")
+    private String account;
     @Column(name="pay_seq_no")
     private String paySeqNo;
+    @Column(name="status")
+    private String status;
 
-    public TokenMoneyPayment() {
+    public TakeMoneyPayment() {
     }
 
-    public TokenMoneyPayment(Integer id, Integer takeMoneyId, LocalDateTime createAt, String payType, String paySeqNo) {
+    public TakeMoneyPayment(Integer id, Integer takeMoneyId, LocalDateTime createAt, String payType, String account, String paySeqNo,String status) {
         this.id = id;
         this.takeMoneyId = takeMoneyId;
         this.createAt = createAt;
         this.payType = payType;
+        this.account = account;
         this.paySeqNo = paySeqNo;
+        this.status = status;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public Integer getId() {
@@ -66,5 +80,13 @@ public class TokenMoneyPayment {
 
     public void setPaySeqNo(String paySeqNo) {
         this.paySeqNo = paySeqNo;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
