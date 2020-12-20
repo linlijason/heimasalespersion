@@ -1,6 +1,6 @@
-package com.heima.heimasalespersion.infrastructure;
+package com.heima.heimasalespersion.infrastructure.acl;
 
-public class AliPaymentResponse {
+public class ExtenalPaymentResponse {
     private int code;
     private String message;
     private String seqNo;

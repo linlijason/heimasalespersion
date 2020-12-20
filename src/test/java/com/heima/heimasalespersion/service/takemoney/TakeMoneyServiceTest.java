@@ -37,7 +37,7 @@ public class TakeMoneyServiceTest {
     }
 
     @Test
-    public void payment_should_success_when_dao_success_and_acl_success() {
+    public void payment_should_success_when_dao_success_and_aliacl_success() {
         int id = 1;
         BigDecimal money = BigDecimal.valueOf(10.1);
         Mockito.when(takeMoneyRepository.getOne(id)).thenReturn(new TakeMoney() {{
@@ -48,6 +48,20 @@ public class TakeMoneyServiceTest {
         Mockito.verify(takeMoneyPaymentRepository).save(ArgumentMatchers.argThat(a -> a.getTakeMoneyId()==id
         && a.getAccount().equals("account") && a.getStatus().equals("支付中")));
         Mockito.verify(aclAdapter).aliPay("account", money);
+
+    }
+    @Test
+    public void payment_should_success_when_dao_success_and_wxacl_success() {
+        int id = 1;
+        BigDecimal money = BigDecimal.valueOf(10.1);
+        Mockito.when(takeMoneyRepository.getOne(id)).thenReturn(new TakeMoney() {{
+            setId(id);
+        }});
+        service.payment(id, "微信", money, "account");
+
+        Mockito.verify(takeMoneyPaymentRepository).save(ArgumentMatchers.argThat(a -> a.getTakeMoneyId()==id
+                && a.getAccount().equals("account") && a.getStatus().equals("支付中")));
+        Mockito.verify(aclAdapter).wxPay("account", money);
 
     }
 

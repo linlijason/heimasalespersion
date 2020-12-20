@@ -2,7 +2,7 @@ package com.heima.heimasalespersion.infrastructure.acl;
 
 import java.math.BigDecimal;
 
-public class AliPaymentRequest {
+public class ExtenalPaymentRequest {
     private String  account;
     private BigDecimal money;
 

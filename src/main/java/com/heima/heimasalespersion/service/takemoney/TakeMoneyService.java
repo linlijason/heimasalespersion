@@ -22,9 +22,15 @@ public class TakeMoneyService {
 
     @Autowired
     private AclAdapter aclAdapter;
+
     public void payment(int id, String payType, BigDecimal amount,String account) {
         TakeMoney tokeMoney = takeMoneyRepository.getOne(id);
-        aclAdapter.aliPay(account, amount);
+        if(payType.equals("支付宝"))
+             aclAdapter.aliPay(account, amount);
+        if(payType.equals("微信")){
+            aclAdapter.wxPay(account, amount);
+        }
+
         TakeMoneyPayment payment = new TakeMoneyPayment(null, tokeMoney.getId(), LocalDateTime.now(),
                 payType, account, "", "支付中");
 

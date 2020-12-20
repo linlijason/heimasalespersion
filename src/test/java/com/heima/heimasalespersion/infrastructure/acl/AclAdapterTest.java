@@ -49,4 +49,13 @@ public class AclAdapterTest extends FakeDbTest {
        ;
     }
 
+    @Test
+    public void pay_should_success_when_wx_success() {
+        String response = "{\"message\":\"ok\",\"code\":0,\"seqNo\":\"seqNo\"}";
+        stubFor(post(urlEqualTo("/wxpay"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(response)));
+
+        adapter.wxPay("account", BigDecimal.valueOf(10));
+    }
+
 }
