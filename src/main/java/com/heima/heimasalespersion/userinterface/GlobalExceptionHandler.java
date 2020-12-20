@@ -39,7 +39,15 @@ public class GlobalExceptionHandler {
             setMessage(e.getMessage());
         }};
     }
-
+    @ExceptionHandler(value= Exception.class)
+    @ResponseBody
+    public Error exceptionHandler(Exception e, HttpServletResponse response) {
+        response.setStatus(500);
+        response.setContentType("application/json;charset=UTF-8");
+        return new Error() {{
+            setMessage("服务器发生异常");
+        }};
+    }
 
     public static class Error{
         private String message;

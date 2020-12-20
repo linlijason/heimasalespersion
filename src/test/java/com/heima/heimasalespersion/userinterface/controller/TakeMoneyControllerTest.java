@@ -60,7 +60,7 @@ public class TakeMoneyControllerTest {
     }
 
     @Test
-    public void payment_should_404_given_happend_notfoundException() throws Exception {
+    public void payment_should_404_given_happened_notfoundException() throws Exception {
         String requestJson="{\"payType\":\"支付宝\",\"payAmount\":11.11,\"account\":\"account\"}";
         MockHttpServletRequestBuilder post = MockMvcRequestBuilders
                 .post("/takemoney/1/payment")
@@ -87,6 +87,23 @@ public class TakeMoneyControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is(400))
                 .andExpect(content().json("{\"message\":\"支付方式错误\"}"));
+
+    }
+
+
+    @Test
+    public void payment_should_500_given_happened_uncaught_exception() throws Exception {
+        String requestJson="{\"payType\":\"支付宝\",\"payAmount\":11.11,\"account\":\"account\"}";
+        MockHttpServletRequestBuilder post = MockMvcRequestBuilders
+                .post("/takemoney/1/payment")
+                .contentType(MediaType.APPLICATION_JSON).content(requestJson);
+        doThrow(new RuntimeException("大家好我是异常啊")).when(takeMoneyService).payment(1,
+                "支付宝",BigDecimal.valueOf(11.11),"account");
+
+        mockMvc.perform(post)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().is(500))
+                .andExpect(content().json("{\"message\":\"服务器发生异常\"}"));
 
     }
 }
